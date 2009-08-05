@@ -1,0 +1,23 @@
+<../../mkconfig
+
+TARG=\
+	nopoint.dis\
+
+MODULES=\
+	../lib/imageopen.m\
+	../lib/nopoint.m\
+
+SYSMODULES=\
+	arg.m\
+	bufio.m\
+	devpointer.m\
+	draw.m\
+	freetype.m\
+	keyboard.m\
+	lists.m\
+	string.m\
+	sys.m\
+
+DISBIN=$ROOT/dis
+
+<$ROOT/mkfiles/mkdis

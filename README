@@ -1,0 +1,64 @@
+# status
+
+seems usable.
+
+
+# intro
+
+nopoint is a tool for displaying slideshows, inspired by magicpoint.
+the user writes slides with simple commands, in plain text.  slides
+can contain text, lists of text, images or tables.  these can be
+styled, e.g. change the (background) colors, alignment, font style
+and font size.  nopoint parses the file and displays it on the
+screen.  keyboard keys and mouse clicks allow navigating through
+the slides.
+
+see the manual page nopoint(1) for more information.
+see lib/nopoint/nopoint.nop for a demo.
+
+
+# install
+
+to install, ensure a "mkconfig" is present (bind/symlink/include
+your inferno's mkconfig).  now run "mk" to compile, and optionally
+"mk install" to install.
+
+nopoint opens the Vera true type fonts, expecting them in /fonts/ttf.
+you will need to copy the vera fonts to that directory before running
+nopoint.  alternatively, you can edit appl/cmd/nopoint.b to open
+other ttf fonts.
+
+
+# latest
+
+the latest version can be found at
+
+	http://www.ueber.net/code/r/nopoint
+
+
+# licence & author
+
+all files except lib/nopoint/glenda.jpg are in the public domain.
+this code has been written by mechiel lukkien, reachable at
+mechiel@ueber.net or mechiel@xs4all.nl.
+
+
+# todo
+
+- find obscure bug that changes fontsize on rendered slides.  seems
+  to be when navigating with (page)up/down and show() kills pre-renderers
+  for no-longer-next slides.
+
+- can we do without mainimg in render()?
+- generate png's with an html page showing small versions and linking to big versions.
+- influence of align,indent,fontsize and what they are relative to can use some careful thought
+- should not word-break around {}'s
+- find a way to flow text around images.  perhaps do it the easy
+  way and allow specifying layers, and let the user do some positioning.
+  that would implement backgrounds too.
+- word background color wouldn't be hard...
+- more styles?  eg borders
+- perhaps allow multiple font sizes on one line?  needs keeping track of baseline.
+- some way to output to pdf?  or perhaps latex (easier).
+- mode for checking whether everything in the slides is valid?
+- get rid of appl/lib/imageopen.b.  make image resizing less inefficient & ugly.

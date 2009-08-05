@@ -1,0 +1,483 @@
+.style title
+.color darkblue
+.style
+
+
+.slide
+.notitle
+.align
+.valign middle
+.font monospace
+.fontsize
+
+.fontsize 2.5
+nopoint
+.fontsize 1.5
+for slides
+
+.align right
+.fontsize 1.0
+by mjl-
+.align
+.font
+
+
+.slide
+.color
+.bgcolor
+.title what is in these slides?
+.fontsize 1.0
+.valign middle
+- features & limitations of nopoint
+- key & mouse commands
+- syntax
+- commands
+- lots of examples
+
+the source of these slides is an example too.
+
+
+.slide
+.title features
+- few features
+- text, lists and images (png,jpg,gif,inferno images)
+- troff-like input syntax
+- simple mouse & key navigation
+- paint on canvas
+
+
+.slide
+.title not (yet) features
+- background images/layers
+- magicpoint's and beamer's pause
+- vector images
+
+
+.slide
+.title {i mouse} and key bindings
+.fontsize .9
+.table
+.colwidth .25 0
+.colwidth .7 1
+.row '{b {#darkred button 1}}'	'moves to the next slide'
+.row '{b {#darkred button 3}}'	'moves to the previous slide'
+.fontsize
+
+
+.slide
+.title mouse and {i key} bindings (1/2)
+.fontsize .9
+.table
+.colwidth .25 0
+.colwidth .7 1
+.row '{b {#darkred p}} or {b {#darkred Left}}'				'previous slide'
+.row '{b {#darkred n}} or {b {#darkred Right}} or {b {#darkred space}}'	'next slide'
+.row '{b {#darkred Down}}'						'back 1/10 of slides'
+.row '{b {#darkred Up}}'						'forward 1/10 of slides'
+.row '{b {#darkred Pagedown}}'						'back 1/3 of slides'
+.row '{b {#darkred Pageup}}'						'forward 1/3 of slides'
+.fontsize
+
+
+.slide
+.title mouse and {i key} bindings (2/2)
+.fontsize .9
+.table
+.colwidth .15 0
+.colwidth .8 1
+.row '{b {#darkred x}}'	'toggle painting on canvas'
+.row '{b {#darkred l}}'	'redraw current slide'
+.row '{b {#darkred r}}'	'reload, reopens and parses the slide file, and displays the same slide again'
+.row '{b {#darkred q}}'	'quit'
+.fontsize
+
+
+.slide
+.title syntax
+- line starting with {b {#darkred .#}} is a comment
+- line starting with {b {#darkred .}} is a command, parameter is single string or tokens
+- line starting with {b {#darkred ..}} is text starting with single dot
+- other lines are text/whitespace
+
+
+.slide
+.title slides
+a slide is started with {#darkred .slide}.
+it runs until end of file or next slide.
+
+example:
+
+.font monospace
+.color darkgreen
+.indent 0.1
+..slide
+text in slide 1.
+
+..slide
+text in slide 2.
+.font
+.color
+.indent
+
+
+.slide
+.title text & lists
+- text is wrapped on at word boundary.  in lists too.
+- lines starting with {b {#darkred -}}, {b {#darkred *}} or {b {#darkred •}} are lists.
+- leading spaces and tabs determines indent for lists.
+
+empty lines are explained next.
+
+
+.slide
+.valign
+.title vspace
+
+blank lines in the input are collapsed into a vspace of 0.75, unless they are at start or end of slide.
+
+command vspace inserts explicit vertical space.
+.vspace 1.5
+this and its preceding line are separated by:
+
+.indent .1
+{m {#darkgreen .vspace 1.5}}
+.indent
+
+
+.slide
+.title images
+two command forms:
+- {#darkgreen .image path scale}
+- {#darkgreen .image path xscale yscale}
+
+first keeps image aspect ratio.
+
+
+.slide
+.title image example
+.align center
+.image glenda.jpg .5
+.align
+
+.font monospace
+.indent .1
+.color darkgreen
+..align center
+..image glenda.jpg .5
+.color
+.indent
+.font
+
+
+.slide
+.title image error
+image paths that do exist but are not valid images show an error:
+
+.image glenda0.jpg .4
+
+
+.slide
+.title slide titles
+the source for this slide has:
+
+.indent .1
+{#darkgreen {m .title slide titles}}
+.indent
+
+every slide has space reserved for a title.  this can be cancelled per slide by:
+
+.indent .1
+{#darkgreen {m .notitle}}
+.indent
+
+
+.slide
+.title tables
+
+command {#darkred .table} for tables.
+reads table commands & comments, until non-table command or whitespace.
+
+table commands:
+- {#darkred .row {i tokens}}
+- {#darkred .colalign left|center|right [colpos]}
+- {#darkred .colwidth scale [colpos]}
+
+
+.slide
+.title more tables
+{#darkred .row} specifies a new row.  tokens are standard single-quoted strings, inline style allowed.
+
+argument {i colpos} is the column position, 0 is the first.  if absent, command applies to all columns.
+
+argument {i scale} for {#darkred .colwidth} is width of column, from 0.0 to 1.0.
+
+
+.slide
+.title tables example
+
+.fontsize .6
+
+.color darkred
+x xor y = z:
+.color
+
+.table
+.colwidth .08
+.row '{b x}'	'{b y}'	'{b z}'
+.row 0	0	0
+.row 0	1	1
+.row 1	0	1
+.row 1	1	0
+
+source:
+
+.font monospace
+.indent .1
+.color darkgreen
+..table
+..colwidth .08
+..row '{{b x{}' '{{b y{}' '{{b z{}'
+..row 0 0 0
+..row 0 1 1
+..row 1 0 1
+..row 1 1 0
+.font
+.indent
+.color
+
+.fontsize
+
+
+.slide
+.title more tables example
+
+.fontsize .9
+.table
+.colalign center 0
+.colalign left 1
+.colwidth .3 0
+.colwidth .6 1
+.row '{b command}'	'{b parameters}'
+.row .table		none
+.row .row		'tokens, the columns'
+.row .colalign		'left|center|right [colpos]'
+.row .colwidth		'scale [colpos]'
+.fontsize
+
+
+.slide
+.title more more tables example
+for other alignment, use monospace font:
+
+.indent .1
+.table
+.colwidth .2
+.colalign right
+.row '{b x}'		'{b y}'
+.row '{m 10.12}'	'{m 15.99}'
+.row '{m 53932.80}'	'{m 5.12}'
+.indent
+
+
+.slide
+.title styles - overview
+.table
+.colwidth 0.2 0
+.colwidth 0.8 1
+.row '{#darkred .align}'	'{#darkgreen left} | center | right'
+.row '{#darkred .indent}'	'{#darkgreen 0.0} | scale'
+.row '{#darkred .valign}'	'top | {#darkgreen middle} | bottom'
+.row '{#darkred .font}'		'{#darkgreen regular} | bold | italic | monospace'
+.row '{#darkred .fontsize}'	'{#darkgreen 1.0} | scale'
+.row '{#darkred .color}'	'{#darkgreen black} | color'
+.row '{#darkred .bgcolor}'	'{#darkgreen white} | color'
+
+default style is indicated in {#darkgreen green}
+
+
+.slide
+.title styles - align
+
+aligns text and images.
+lists & tables are always left-aligned.
+
+.font monospace
+.indent .1
+.color darkgreen
+..align right
+right-aligned text
+..align
+.font
+.color
+.indent
+
+produces:
+
+.color darkred
+.align right
+right-aligned text
+.align
+.color
+
+
+.slide
+.title styles - indent
+text, lists, images & tables can be indented from the right by a scale relative to the width of the display.
+
+.indent .1
+examples in this document, and this line, are indented by 0.1.
+.indent
+
+
+.slide
+.title styles - valign
+.valign bottom
+
+vertical align.
+this page is aligned to the bottom:
+
+.font monospace
+.indent .1
+.color darkgreen
+..valign bottom
+.font
+.color
+.indent
+
+
+.slide
+.valign
+.title styles - font
+examples:
+
+.indent .1
+.color darkgreen
+.font bold
+..font bold
+.font italic
+..font italic
+.font monospace
+..font monospace
+.font regular
+..font regular
+.font
+.indent
+.color
+
+
+.slide
+.title styles - fontsize
+fontsize of 1.0 can fit 30 ``m'' glyphs in display.
+
+fonts are scaled relative to this font size.
+
+.font monospace
+.indent .1
+.color darkgreen
+.fontsize 1.5
+..fontsize 1.5
+.fontsize 0.5
+..fontsize 0.5
+.fontsize
+.font
+.indent
+.color
+
+
+.slide
+.title styles - color
+
+sets foreground (text) color, in hexadecimal {i rrggbbaa}.
+the following color names are recognized:
+.indent .05
+.fontsize .8
+white, {#grey grey}, {#black black}, {#red red}, {#green green}, {#blue blue}, {#cyan cyan}, {#magenta magenta}, {#yellow yellow}, {#darkred darkred}, {#darkgreen darkgreen}, {#darkblue darkblue}
+.fontsize
+.indent
+
+.font monospace
+.indent .1
+.color green
+..color green
+.color da70d6ff
+..color da70d6ff
+.font
+.color
+.indent
+
+
+.slide
+.title styles - bgcolor
+like color, but for the background.
+.bgcolor aaaaffff
+
+example:
+
+.indent .1
+{#darkgreen {m .bgcolor aaaaffff}}
+.indent
+
+
+.slide
+.bgcolor
+.title more styles
+.fontsize .9
+three style states:
+- for titles
+- for (resetting to) default
+- for current & next for slides
+
+select state style commands operation on:
+- {#darkred .style title|default}
+- {#darkred .style} (for current & next)
+
+style commands without their parameter reset to value from default state.
+.fontsize
+
+
+.slide
+.title title tyles
+
+.fontsize .85
+default style for titles:
+
+.table
+.colwidth .2
+.row '{#darkred color}'		'{#darkgreen black}'
+.row '{#darkred bgcolor}'	'{#darkgreen white}'
+.row '{#darkred font}'		'{#darkgreen monospace}'
+.row '{#darkred fontsize}'	'{#darkgreen 1.2}'
+.row '{#darkred align}'		'{#darkgreen right}'
+.row '{#darkred valign}'	'{#darkgreen top}'
+.row '{#darkred indent}'	'{#darkgreen 0.0}'
+.fontsize
+
+
+.slide
+.title inline styles
+font and colors can be set inline:
+- first word after {{ is style & value
+- style applies to remaining text, until matching {},
+
+.indent .1
+{r {{r regular{}}, {b {{b bold{}}
+{i {{i italic{}}, {m {{m monospace{}}
+{#darkred {{#darkred for color{}}
+.color
+
+
+.slide
+.title version
+for future compatibility, specify the file format version number:
+
+.indent .1
+{#darkgreen {m .version 0}}
+.indent
+
+.slide
+.title the end
+.align center
+.fontsize 1.8
+questions?
+
+try the manual page!

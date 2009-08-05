@@ -1,0 +1,158 @@
+.TH NOPOINT 1
+.SH NAME
+nopoint \- presentation slides
+.SH SYNOPSIS
+.B nopoint
+[
+.B -d
+]
+.I file
+.SH DESCRIPTION
+.B Nopoint
+is a tool that displays ``slides'', for use in a presentation.
+Option
+.B -d
+enables debug output.
+.I File
+contains the slides.  It contains text, possibly itemized, path names of images, and various directives to influence the visual style of the slides.
+.SS Navigation
+Navigation through the slides is done with the following key presses and mouse button clicks:
+.TP
+.BR "n, space, Right, Button 1"
+Next slide.
+.TP
+.B "p, Left, Button 3"
+Previous slide.
+.TP
+.B Home
+First slide.
+.TP
+.B End
+Last slide
+.TP
+.B "Pagedown, Pageup"
+Back and forward 1/3rd of slide count.
+.TP
+.B "Down, Up"
+Back and forward 1/10th of slide count.
+.TP
+.B x
+Toggle painting on the canvas.  Painting is done by moving the pointer with button 1 held down.
+.TP
+.B l
+Redraw the current slide.
+.TP
+.B r
+Reload the slides from file and repaint the slide.
+.TP
+.B q
+Quit.
+.SS Syntax
+A slide file holds commands that resemble troff commands.  They begin with a dot.  A slide is started with the command
+.IR ``slide'' .
+It continues until end of file or the next ``slide'' command.
+Lines starting with
+.I ``.#''
+are comments, up to the end of the line.
+Lines starting with
+.I ``..''
+are treated as text starting with a single dot.
+Other lines are interpreted as text.  Empty lines are collapsed to a single vertical space of 0.75 of the height of a line, but are ignored at the start and end of a slide.  Text with a ``-'', ``*'' or ``•'' as first non-whitespace character is treated as a list item.  A list consists of one or more list items, varying depths are allowed.   The number of leading spaces and tabs is the depth of the item.  All other non-blank lines are treated as plain text.  Text (both plain and in lists) that is too long to fit on a single line on the display will be wrapped, to continue on the next line.
+.SS Commands
+Images can be included with the
+.I ``image''
+command.  The following file formats are supported:  PNG, JPG, GIF and the Inferno
+.IR image (6).
+The command takes two and an optional third argument.  The first is the path of the image, either absolute or relative to the directory containing the slides
+.IR file .
+The second parameter is the scale of the image, relative to the height and width of the drawing area.  The image width/height ratio are preserved.  If a third argument was specified, the second and third arguments are interpreted as the width and height ratio, independent of each other and thus not preserving the ratio.
+.PP
+Tables provide column- and row aligned text.  Inline styles, discussed below, in the fields are allowed.  Text in columns is aligned to the left, but this can be configured with the
+.I ``colalign''
+command, with arguments
+.I "left | center | right"
+and an optional numeric column selector, counting from 0.  
+Columns are allocated equal width by default, with 1/30th of the display width as padding.  Column width can be set by the
+.I ``colwidth''
+command, with arguments
+.I scale
+(relative to the width of the display) and 
+an optional numeric column selector.
+Rows are specified by the
+.I ``row''
+command, with tokens as argument.
+Tokens standard single-quoted tokens.
+The table ends at end of file or the first line that doesn't hold a table command or comment.
+.PP
+Each slide has space reserved for a title unless command
+.I ``notitle''
+has been executed.
+The title can be left empty, or it can be set to a text using the
+.I ``title''
+command.
+.PP
+Various styles can be applied to the slides.  The default style and the style for the titles can be configured.  Title styles are global, the same for each slide.  Style commands for the slides remain active until the next command that overrides or resets that style element.  Style elements can be reset to the default by the command without any parameters.  Style commands apply to the currently selected style:  ``default'', ``title'' or the current slide style.  The style is selected with the ``style'' command, with the name of the style as argument (without argument the current slide style is selected).  The following style commands are understood:
+.TP
+.BI "color " [rrggbbaa]
+The foreground/text color, in hexadecimal.  Additionally, the following names are understood:
+.I white, black, grey, red, green, blue, cyan, magenta, yellow, darkred, darkgreen, darkblue.
+.TP
+.BI "bgcolor " [rrggbbaa]
+Like
+.B color
+but sets the background color.  The background is used for the entire slide.
+.TP
+.BI "font " "regular | italic | bold | monospace"
+Set the font variant.
+.TP
+.BI "fontsize " real
+Set the font size.  All values greater than or equal to 0.0 are valid.  The values are relative to the base font size of the display, which is sized to fit 30 ``m'' glyphs.
+.TP
+.BI "align " "left | center | right"
+Align elements to the left, center or right.  This only applies to plain text and images, not to text in lists and not to tables.  The default is left.
+.TP
+.BI "indent " scale
+Indent upcoming text, lists, images and tables by
+.I scale
+which is calculated relative to the width of the display.
+.TP
+.BI "valign " "top | middle | bottom"
+Align elements vertically, at the top, in the middle or at the bottom of the slide.  The default is top.
+.PP
+Inline styles can be selected too:  (text) color and font variant.  An inline style is started with a ``{'' and ended with a ``}''.  Inline styles can be nested.  A literal ``{'' or ``}'' is achieved by prefixing the character with a ``{''.  The character following the ``{'', up to the next space, indicate the style element and value.  The following are recognized:
+.TP
+.B r
+regular
+.TP
+.B b
+bold
+.TP
+.B i
+italic
+.TP
+.B m
+monospace
+.TP
+.B #rrggbbaa
+color, indicated by the hexadecimal value
+.IR rrggbbaa ,
+or any of the symbolic names accepted by the
+.I ``color''
+command.
+.PP
+The version of the file can be specified with the ``version'' command.  The current version is 0.  Specifying it is not mandatory, but recommended for future compatibility.
+.SH EXAMPLE
+See
+.BR /lib/nopoint/nopoint.nop .
+.SH SOURCE
+.B /appl/cmd/nopoint.b
+.br
+.B /appl/lib/nopoint.b
+.SH BUGS
+Does not use
+.IR wm (1),
+but draw directly.
+.br
+No vector images.
+.br
+Nopoint renders slowly, but tries to hide it through rendering the next slide in the background.
