@@ -19,9 +19,11 @@ see lib/nopoint/nopoint.nop for a demo.
 
 # install
 
-to install, ensure a "mkconfig" is present (bind/symlink/include
-your inferno's mkconfig).  now run "mk" to compile, and optionally
-"mk install" to install.
+make sure you have $ROOT set, now run "mk" to compile and
+"mk install" to install the files.
+
+when building from within inferno, insert SYSHOST=Inferno and ROOT=
+in the mk invocations to override the values in the mkconfig.
 
 nopoint opens the Vera true type fonts, expecting them in /fonts/ttf.
 you will need to copy the vera fonts to that directory before running
